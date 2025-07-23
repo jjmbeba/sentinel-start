@@ -1,13 +1,14 @@
 // src/routes/__root.tsx
 /// <reference types="vite/client" />
-import type { ReactNode } from 'react'
+
 import {
-  Outlet,
   createRootRoute,
   HeadContent,
+  Outlet,
   Scripts,
-} from '@tanstack/react-router'
-import appCss from "@/styles/app.css?url"
+} from '@tanstack/react-router';
+import type { ReactNode } from 'react';
+import appCss from '@/styles/app.css?url';
 
 export const Route = createRootRoute({
   head: () => ({
@@ -24,26 +25,27 @@ export const Route = createRootRoute({
       },
     ],
     links: [
-        {
-          rel: "stylesheet",
-          href: appCss,
-        },
-      ],
+      {
+        rel: 'stylesheet',
+        href: appCss,
+      },
+    ],
   }),
   component: RootComponent,
-})
+});
 
 function RootComponent() {
   return (
     <RootDocument>
       <Outlet />
     </RootDocument>
-  )
+  );
 }
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html>
+    <html lang="en">
+      {/** biome-ignore lint/style/noHeadElement: Tanstack start does not have a head element */}
       <head>
         <HeadContent />
       </head>
@@ -52,5 +54,5 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
         <Scripts />
       </body>
     </html>
-  )
+  );
 }

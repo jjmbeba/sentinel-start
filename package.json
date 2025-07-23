@@ -8,10 +8,13 @@
     "build": "vite build"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.1.2",
     "@types/bun": "latest",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
+    "husky": "^9.1.7",
     "tw-animate-css": "^1.3.5",
+    "ultracite": "5.0.47",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "peerDependencies": {
