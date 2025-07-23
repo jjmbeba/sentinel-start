@@ -9,8 +9,23 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type { ReactNode } from "react";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import appCss from "@/styles/app.css?url";
+
+const themeScript = `
+(function() {
+    const theme = localStorage.getItem('vite-ui-theme') || 'dark';
+    const root = document.documentElement;
+    
+    if (theme === 'system') {
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        root.classList.add(systemTheme);
+    } else {
+        root.classList.add(theme);
+    }
+})();
+`;
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -36,6 +51,11 @@ export const Route = createRootRoute({
 				href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap",
 			},
 		],
+		scripts: [
+			{
+				children: themeScript,
+			},
+		],
 	}),
 	component: RootComponent,
 });
@@ -51,12 +71,17 @@ function RootComponent() {
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 	return (
 		<html lang="en">
-			<HeadContent />
-			<body>
-				{children}
-				<Toaster richColors />
-				<Scripts />
-			</body>
+			{/** biome-ignore lint/style/noHeadElement: Tanstack start does not have a head element */}
+			<head>
+				<HeadContent />
+			</head>
+			<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+				<body>
+					{children}
+					<Toaster richColors />
+					<Scripts />
+				</body>
+			</ThemeProvider>
 			<TanStackRouterDevtools position="bottom-left" />
 			{/* <ReactQueryDevtools buttonPosition="bottom-right" position="bottom" /> */}
 		</html>
