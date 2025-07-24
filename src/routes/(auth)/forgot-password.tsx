@@ -1,9 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import AuthContainer from "@/components/auth/common/auth-container";
+import { ForgotPasswordForm } from "@/components/auth/forms/forgot-password-form";
 
-export const Route = createFileRoute('/(auth)/forgot-password')({
-  component: RouteComponent,
-})
+export const Route = createFileRoute("/(auth)/forgot-password")({
+	component: RouteComponent,
+});
 
 function RouteComponent() {
-  return <div>Hello "/(auth)/forgot-password"!</div>
+	return <AuthContainer authForm={<ForgotPasswordForm />} type="login" />;
 }
