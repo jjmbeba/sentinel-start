@@ -13,7 +13,7 @@ function Home() {
 
 	return (
 		<div>
-			<h1>Home page</h1>
+			<h1 className={'text-red-500'}>Home pages</h1>
 			<ModeToggle />
 			{isPending ? (
 				<p>Loading...</p>

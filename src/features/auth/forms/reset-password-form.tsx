@@ -1,43 +1,41 @@
 import { useForm } from "@tanstack/react-form";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { getRouteApi } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { signInSchema } from "@/components/auth/schemas";
-import AuthSubmitBtn from "@/components/forms/auth/auth-submit-btn";
-import EmailInput from "@/components/forms/auth/email-auth-input";
-import ForgotPasswordLink from "@/components/forms/auth/forgot-password-link";
-import AuthFormHeader from "@/components/forms/auth/form-header";
-import PasswordInput from "@/components/forms/auth/password-auth-input";
-import FieldErrorMessage from "@/components/forms/field-error-msg";
-import FormField from "@/components/forms/form-field";
-import { signIn } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
+import AuthSubmitBtn from "@/features/auth/components/auth-submit-btn.tsx";
+import AuthFormHeader from "@/features/auth/components/form-header.tsx";
+import PasswordInput from "@/features/auth/components/password-auth-input.tsx";
+import FieldErrorMessage from "@/features/auth/components/field-error-msg.tsx";
+import FormField from "@/features/auth/components/form-field.tsx";
+import { resetPassword } from "@/lib/auth-client.ts";
+import { cn } from "@/lib/utils.ts";
+import { resetPasswordSchema } from "../schemas";
 
-export function LoginForm({
+export function ResetPasswordForm({
 	className,
 	...props
 }: React.ComponentProps<"form">) {
 	const [isVisible, setIsVisible] = useState(false);
 	const toggleVisibility = () => setIsVisible((prevState) => !prevState);
-	const navigate = useNavigate();
+	const { token } = getRouteApi("/(auth)/reset-password").useSearch();
 
 	const form = useForm({
 		validators: {
-			onSubmit: signInSchema,
+			onBlur: resetPasswordSchema,
 		},
 		defaultValues: {
-			email: "",
 			password: "",
+			confirmPassword: "",
 		},
 		onSubmit: async ({ value }) => {
-			await signIn.email(
+			await resetPassword(
 				{
-					...value,
+					newPassword: value.password,
+					token,
 				},
 				{
 					onSuccess: () => {
-						navigate({ to: "/" });
-						toast.success("Login successful");
+						toast.success("Password reset successfully");
 					},
 					onError: (error) => {
 						toast.error(error.error.message);
@@ -46,7 +44,6 @@ export function LoginForm({
 			);
 		},
 	});
-
 	return (
 		<form
 			className={cn("flex flex-col gap-6", className)}
@@ -58,31 +55,10 @@ export function LoginForm({
 			{...props}
 		>
 			<AuthFormHeader
-				description="Enter your email below to login to your account"
-				title="Login to your account"
+				description="Enter your new password below"
+				title="Reset Password"
 			/>
 			<div className="grid gap-6">
-				<form.Field name="email">
-					{(field) => (
-						<FormField
-							errors={field.state.meta.errors.map((error) => (
-								<FieldErrorMessage
-									key={error?.message}
-									message={error?.message}
-								/>
-							))}
-							htmlFor="email"
-							label="Email"
-						>
-							<EmailInput
-								hasErrors={!!field.state.meta.errors.length}
-								onBlur={field.handleBlur}
-								onChange={(e) => field.handleChange(e.target.value)}
-								value={field.state.value}
-							/>
-						</FormField>
-					)}
-				</form.Field>
 				<form.Field name="password">
 					{(field) => (
 						<FormField
@@ -92,17 +68,37 @@ export function LoginForm({
 									message={error?.message}
 								/>
 							))}
-							htmlFor="password"
+							htmlFor={field.name}
 							label="Password"
-							optionalLink={<ForgotPasswordLink />}
 						>
 							<PasswordInput
 								hasErrors={!!field.state.meta.errors.length}
 								isVisible={isVisible}
 								onBlur={field.handleBlur}
-								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-									field.handleChange(e.currentTarget.value)
-								}
+								onChange={(e) => field.handleChange(e.target.value)}
+								toggleVisibility={toggleVisibility}
+								value={field.state.value}
+							/>
+						</FormField>
+					)}
+				</form.Field>
+				<form.Field name="confirmPassword">
+					{(field) => (
+						<FormField
+							errors={field.state.meta.errors.map((error) => (
+								<FieldErrorMessage
+									key={error?.message}
+									message={error?.message}
+								/>
+							))}
+							htmlFor={field.name}
+							label="Confirm Password"
+						>
+							<PasswordInput
+								hasErrors={!!field.state.meta.errors.length}
+								isVisible={isVisible}
+								onBlur={field.handleBlur}
+								onChange={(e) => field.handleChange(e.target.value)}
 								toggleVisibility={toggleVisibility}
 								value={field.state.value}
 							/>
@@ -115,19 +111,12 @@ export function LoginForm({
 					{([isSubmitting, canSubmit]) => (
 						<AuthSubmitBtn
 							canSubmit={canSubmit}
-							label="Login"
+							label="Reset Password"
 							loading={isSubmitting}
-							submittingLabel="Logging in..."
+							submittingLabel="Resetting password..."
 						/>
 					)}
 				</form.Subscribe>
-				{/* <SocialAuthButtons /> */}
-			</div>
-			<div className="text-center text-sm">
-				Don&apos;t have an account?{" "}
-				<Link className="underline underline-offset-4" to="/sign-up">
-					Sign up
-				</Link>
 			</div>
 		</form>
 	);

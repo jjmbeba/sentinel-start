@@ -3,16 +3,16 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { UserIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import AuthSubmitBtn from "@/components/forms/auth/auth-submit-btn";
-import EmailInput from "@/components/forms/auth/email-auth-input";
-import AuthFormHeader from "@/components/forms/auth/form-header";
-import PasswordInput from "@/components/forms/auth/password-auth-input";
-import FieldErrorMessage from "@/components/forms/field-error-msg";
-import FormField from "@/components/forms/form-field";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { signUp } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
+import AuthSubmitBtn from "@/features/auth/components/auth-submit-btn.tsx";
+import EmailInput from "@/features/auth/components/email-auth-input.tsx";
+import AuthFormHeader from "@/features/auth/components/form-header.tsx";
+import PasswordInput from "@/features/auth/components/password-auth-input.tsx";
+import FieldErrorMessage from "@/features/auth/components/field-error-msg.tsx";
+import FormField from "@/features/auth/components/form-field.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import { Label } from "@/components/ui/label.tsx";
+import { signUp } from "@/lib/auth-client.ts";
+import { cn } from "@/lib/utils.ts";
 import { signUpSchema } from "../schemas";
 
 export function SignUpForm({

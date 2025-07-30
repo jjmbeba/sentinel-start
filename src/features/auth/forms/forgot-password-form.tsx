@@ -1,12 +1,12 @@
 import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
-import AuthSubmitBtn from "@/components/forms/auth/auth-submit-btn";
-import EmailInput from "@/components/forms/auth/email-auth-input";
-import AuthFormHeader from "@/components/forms/auth/form-header";
-import FieldErrorMessage from "@/components/forms/field-error-msg";
-import FormField from "@/components/forms/form-field";
-import { requestPasswordReset } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
+import AuthSubmitBtn from "@/features/auth/components/auth-submit-btn.tsx";
+import EmailInput from "@/features/auth/components/email-auth-input.tsx";
+import AuthFormHeader from "@/features/auth/components/form-header.tsx";
+import FieldErrorMessage from "@/features/auth/components/field-error-msg.tsx";
+import FormField from "@/features/auth/components/form-field.tsx";
+import { requestPasswordReset } from "@/lib/auth-client.ts";
+import { cn } from "@/lib/utils.ts";
 import { forgotPasswordSchema } from "../schemas";
 
 export function ForgotPasswordForm({

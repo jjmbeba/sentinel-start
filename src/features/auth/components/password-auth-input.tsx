@@ -1,5 +1,5 @@
-import { Input } from "@/components/ui/input";
-import PasswordVisibilityToggle from "@/components/ui/password-visibility-toggle";
+import { Input } from "@/components/ui/input.tsx";
+import PasswordVisibilityToggle from "@/components/ui/password-visibility-toggle.tsx";
 
 type Props = {
 	isVisible: boolean;

@@ -12,6 +12,7 @@ import type { ReactNode } from "react";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import appCss from "@/styles/app.css?url";
+import Navbar from "@/features/common/components/navbar.tsx";
 
 const themeScript = `
 (function() {
@@ -77,6 +78,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			</head>
 			<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
 				<body>
+				<Navbar/>
 					{children}
 					<Toaster richColors />
 					<Scripts />
