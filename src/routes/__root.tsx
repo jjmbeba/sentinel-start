@@ -2,57 +2,90 @@
 /// <reference types="vite/client" />
 
 import {
-  createRootRoute,
-  HeadContent,
-  Outlet,
-  Scripts,
-} from '@tanstack/react-router';
-import type { ReactNode } from 'react';
-import appCss from '@/styles/app.css?url';
+	createRootRoute,
+	HeadContent,
+	Outlet,
+	Scripts,
+} from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import type { ReactNode } from "react";
+import Navbar from "@/components/common/components/navbar";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import appCss from "@/styles/app.css?url";
+
+const themeScript = `
+(function() {
+    const theme = localStorage.getItem('vite-ui-theme') || 'system';
+    const root = document.documentElement;
+    
+    if (theme === 'system') {
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        root.classList.add(systemTheme);
+    } else {
+        root.classList.add(theme);
+    }
+})();
+`;
 
 export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'TanStack Start Starter',
-      },
-    ],
-    links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
-    ],
-  }),
-  component: RootComponent,
+	head: () => ({
+		meta: [
+			{
+				charSet: "utf-8",
+			},
+			{
+				name: "viewport",
+				content: "width=device-width, initial-scale=1",
+			},
+			{
+				title: "Sentinel",
+			},
+		],
+		links: [
+			{
+				rel: "stylesheet",
+				href: appCss,
+			},
+			{
+				rel: "stylesheet",
+				href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap",
+			},
+		],
+		scripts: [
+			{
+				children: themeScript,
+			},
+		],
+	}),
+	component: RootComponent,
 });
 
 function RootComponent() {
-  return (
-    <RootDocument>
-      <Outlet />
-    </RootDocument>
-  );
+	return (
+		<RootDocument>
+			<Outlet />
+		</RootDocument>
+	);
 }
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
-  return (
-    <html lang="en">
-      {/** biome-ignore lint/style/noHeadElement: Tanstack start does not have a head element */}
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			{/** biome-ignore lint/style/noHeadElement: Tanstack start does not have a head element */}
+			<head>
+				<HeadContent />
+			</head>
+			<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+				<body>
+					<Navbar />
+					{children}
+					<Toaster richColors />
+					<Scripts />
+				</body>
+			</ThemeProvider>
+			<TanStackRouterDevtools position="bottom-left" />
+			{/* <ReactQueryDevtools buttonPosition="bottom-right" position="bottom" /> */}
+		</html>
+	);
 }
