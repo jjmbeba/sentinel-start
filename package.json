@@ -12,7 +12,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.2",
+    "@playwright/test": "^1.54.1",
     "@types/bun": "latest",
+    "@types/node": "^24.1.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "drizzle-kit": "^0.31.4",
@@ -31,7 +33,7 @@
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/postcss": "^4.1.11",
-    "@tanstack/react-form": "^1.14.2",
+    "@tanstack/react-form": "^1.17.0",
     "@tanstack/react-query-devtools": "^5.83.0",
     "@tanstack/react-router": "^1.129.8",
     "@tanstack/react-router-devtools": "^1.129.8",

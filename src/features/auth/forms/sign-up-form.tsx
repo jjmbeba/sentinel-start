@@ -1,16 +1,16 @@
-import { useForm } from "@tanstack/react-form";
+import { revalidateLogic, useForm } from "@tanstack/react-form";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { UserIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import AuthSubmitBtn from "@/features/auth/components/auth-submit-btn.tsx";
-import EmailInput from "@/features/auth/components/email-auth-input.tsx";
-import AuthFormHeader from "@/features/auth/components/form-header.tsx";
-import PasswordInput from "@/features/auth/components/password-auth-input.tsx";
-import FieldErrorMessage from "@/features/auth/components/field-error-msg.tsx";
-import FormField from "@/features/auth/components/form-field.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
+import AuthSubmitBtn from "@/features/auth/components/auth-submit-btn.tsx";
+import EmailInput from "@/features/auth/components/email-auth-input.tsx";
+import FieldErrorMessage from "@/features/auth/components/field-error-msg.tsx";
+import FormField from "@/features/auth/components/form-field.tsx";
+import AuthFormHeader from "@/features/auth/components/form-header.tsx";
+import PasswordInput from "@/features/auth/components/password-auth-input.tsx";
 import { signUp } from "@/lib/auth-client.ts";
 import { cn } from "@/lib/utils.ts";
 import { signUpSchema } from "../schemas";
@@ -21,8 +21,12 @@ export function SignUpForm({
 }: React.ComponentProps<"form">) {
 	const navigate = useNavigate();
 	const form = useForm({
+		validationLogic: revalidateLogic({
+			modeAfterSubmission: "change",
+		}),
 		validators: {
-			onSubmit: signUpSchema,
+			onDynamicAsyncDebounceMs: 500,
+			onDynamicAsync: signUpSchema,
 		},
 		defaultValues: {
 			email: "",
@@ -165,9 +169,9 @@ export function SignUpForm({
 				>
 					{([isSubmitting, canSubmit]) => (
 						<AuthSubmitBtn
-							canSubmit={canSubmit}
+							canSubmit={canSubmit ?? true}
 							label="Sign up"
-							loading={isSubmitting}
+							loading={isSubmitting ?? false}
 							submittingLabel="Signing up..."
 						/>
 					)}

@@ -1,15 +1,15 @@
-import { useForm } from "@tanstack/react-form";
+import { revalidateLogic, useForm } from "@tanstack/react-form";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { signInSchema } from "@/features/auth/schemas";
 import AuthSubmitBtn from "@/features/auth/components/auth-submit-btn.tsx";
 import EmailInput from "@/features/auth/components/email-auth-input.tsx";
+import FieldErrorMessage from "@/features/auth/components/field-error-msg.tsx";
 import ForgotPasswordLink from "@/features/auth/components/forgot-password-link.tsx";
+import FormField from "@/features/auth/components/form-field.tsx";
 import AuthFormHeader from "@/features/auth/components/form-header.tsx";
 import PasswordInput from "@/features/auth/components/password-auth-input.tsx";
-import FieldErrorMessage from "@/features/auth/components/field-error-msg.tsx";
-import FormField from "@/features/auth/components/form-field.tsx";
+import { signInSchema } from "@/features/auth/schemas";
 import { signIn } from "@/lib/auth-client.ts";
 import { cn } from "@/lib/utils.ts";
 
@@ -22,8 +22,12 @@ export function LoginForm({
 	const navigate = useNavigate();
 
 	const form = useForm({
+		validationLogic: revalidateLogic({
+			modeAfterSubmission: "change",
+		}),
 		validators: {
-			onSubmit: signInSchema,
+			onDynamicAsyncDebounceMs: 500,
+			onDynamicAsync: signInSchema,
 		},
 		defaultValues: {
 			email: "",
@@ -67,6 +71,7 @@ export function LoginForm({
 						<FormField
 							errors={field.state.meta.errors.map((error) => (
 								<FieldErrorMessage
+									data-testid="field-error"
 									key={error?.message}
 									message={error?.message}
 								/>
@@ -114,9 +119,9 @@ export function LoginForm({
 				>
 					{([isSubmitting, canSubmit]) => (
 						<AuthSubmitBtn
-							canSubmit={canSubmit}
+							canSubmit={canSubmit ?? true}
 							label="Login"
-							loading={isSubmitting}
+							loading={isSubmitting ?? false}
 							submittingLabel="Logging in..."
 						/>
 					)}
