@@ -9,10 +9,10 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type { ReactNode } from "react";
+import Navbar from "@/components/common/components/navbar";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import appCss from "@/styles/app.css?url";
-import Navbar from "@/features/common/components/navbar.tsx";
 
 const themeScript = `
 (function() {
@@ -39,7 +39,7 @@ export const Route = createRootRoute({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "TanStack Start Starter",
+				title: "Sentinel",
 			},
 		],
 		links: [
@@ -78,7 +78,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			</head>
 			<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
 				<body>
-				<Navbar/>
+					<Navbar />
 					{children}
 					<Toaster richColors />
 					<Scripts />

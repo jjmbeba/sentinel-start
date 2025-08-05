@@ -13,6 +13,7 @@ const PasswordVisibilityToggle = ({ isVisible, toggleVisibility }: Props) => {
 			aria-label={isVisible ? "Hide password" : "Show password"}
 			aria-pressed={isVisible}
 			className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md text-muted-foreground hover:text-foreground focus:z-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+			name="password-visibility-toggle"
 			onClick={toggleVisibility}
 			size="sm"
 			type="button"

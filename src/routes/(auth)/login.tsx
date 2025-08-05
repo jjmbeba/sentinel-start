@@ -4,6 +4,13 @@ import { LoginForm } from "@/features/auth/forms/login-form";
 
 export const Route = createFileRoute("/(auth)/login")({
 	component: RouteComponent,
+	head: () => ({
+		meta: [
+			{
+				title: "Login | Sentinel",
+			},
+		],
+	}),
 });
 
 function RouteComponent() {

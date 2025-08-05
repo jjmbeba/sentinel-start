@@ -18,6 +18,7 @@ const EmailInput = ({ value, hasErrors, onChange, onBlur }: Props) => {
 				onBlur={onBlur}
 				onChange={onChange}
 				placeholder="m@example.com"
+				type="email"
 				value={value}
 			/>
 			<div className="pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-muted-foreground/80 peer-disabled:opacity-50">
